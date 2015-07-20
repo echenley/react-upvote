@@ -3,6 +3,7 @@
 import React from 'react';
 import Upvote from 'react-upvote';
 
+// fake User/Posts APIs
 import UserAPI from './UserAPI';
 import PostsAPI from './PostsAPI';
 
@@ -76,9 +77,9 @@ const App = React.createClass({
             <article className="post" key={ i }>
                 <Upvote
                     voteStatus={ user.votes[postData.id] || 0 }
-                    afterContent={ <span className="upvote-count">{ postData.upvotes }</span> }
                     upvoteContent={ <i className="upvote-icon fa fa-arrow-up"></i> }
                     downvoteContent={ <i className="downvote-icon fa fa-arrow-down"></i> }
+                    afterContent={ <span className="upvote-count">{ postData.upvotes }</span> }
                     shouldAllow={ () => isLoggedIn }
                     onDisallowed={ () => this.errorMessage('You have to log in!') }
                     onUpvote={ () => this.upvotePost(postData.id) }
@@ -91,9 +92,10 @@ const App = React.createClass({
 
         return (
             <main className="posts">
-                <div>
+                <div className="login-status">
+                    <span>You are currently { isLoggedIn ? '' : 'NOT' } logged in.</span>
                     <a href="#" onClick={ this.toggleLogin }>
-                        { isLoggedIn ? 'logout' : 'login' }
+                        { isLoggedIn ? 'Logout' : 'Login' }
                     </a>
                 </div>
                 { posts }

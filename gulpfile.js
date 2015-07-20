@@ -12,30 +12,30 @@ var initGulpTasks = require('react-component-gulp-tasks');
 
 var taskConfig = {
 
-	component: {
-		name: 'ReactUpvote',
-		dependencies: [
-			'classnames',
-			'react',
-			'react/addons'
-		],
-		lib: 'lib'
-	},
+    component: {
+        name: 'ReactUpvote',
+        dependencies: [
+            'classnames',
+            'react',
+            'react/addons'
+        ],
+        lib: 'lib'
+    },
 
-	example: {
-		src: 'example/src',
-		dist: 'example/dist',
-		files: [
-			'index.html',
-			'.gitignore'
-		],
-		scripts: [
-			'example.js'
-		],
-		less: [
-			'example.less'
-		]
-	}
+    example: {
+        src: 'example/src',
+        dist: 'example/dist',
+        files: [
+            'index.html',
+            '.gitignore'
+        ],
+        scripts: [
+            'example.js'
+        ],
+        less: [
+            'example.less'
+        ]
+    }
 
 };
 

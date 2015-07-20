@@ -1,7 +1,13 @@
 # react-upvote
 
-__COMPONENT DESCRIPTION GOES HERE__
+**Note: This is a very new project not ready for production use. It's API will change frequently until v1.0.0.**
 
+Reusable upvote component for React applications.
+
+
+## Todo
+
+- Thorough testing
 
 ## Demo & Examples
 
@@ -30,21 +36,27 @@ npm install react-upvote --save
 
 ## Usage
 
-__EXPLAIN USAGE HERE__
-
 ```
-var ReactUpvote = require('react-upvote');
+var Upvote = require('react-upvote');
 
-<ReactUpvote>Example</ReactUpvote>
+<Upvote>Example</Upvote>
 ```
+
 
 ### Properties
 
-* __DOCUMENT PROPERTIES HERE__
-
-### Notes
-
-__ADDITIONAL USAGE NOTES__
+| Property | Type | Default Value | Description |
+| -------- | ---- | ------------- | ----------- |
+| className | String | `'react-upvote'` | Class given to the upvote container |
+| voteStatus | Integer | `0` | Current user's vote status. Can be `-1` (downvoted) `0` (no vote) or `1` (upvoted) |
+| upvoteCount | Integer | `0` | The component's current upvote count |
+| shouldAllow | Function | `null` | Function returning a boolean which determines whether to allow the current user to vote. |
+| onDisallowed | Function | `null` | Function called when `shouldAllow` returns `false` |
+| onUpvote | Function | `null` | Function called when an upvote is registered |
+| onDownvote | Function | `null` | Function called when a downvote is registered |
+| onRemoveVote | Function | `null` | Function called when undoing a previous vote |
+| upvoteContent | Component | `<div className="upvote">^</div>` |
+| downvoteContent | Component | `<div className="downvote">v</div>` |
 
 
 ## Development (`src`, `lib` and the build process)
@@ -53,9 +65,7 @@ __ADDITIONAL USAGE NOTES__
 
 To build, watch and serve the examples (which will also watch the component source), run `npm start`. If you just want to watch changes to `src` and rebuild `lib`, run `npm run watch` (this is useful if you are working with `npm link`).
 
+
 ## License
 
-__PUT LICENSE HERE__
-
-Copyright (c) 2015 Evan Henley.
-
+MIT Licensed. Copyright (c) Evan Henley 2015.

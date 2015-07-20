@@ -33,12 +33,12 @@ const Upvote = React.createClass({
             voteStatus: 0,
             upvoteCount: 0,
 
-            shouldAllow: () => true,
-            onDisallowed: noop,
+            shouldAllow: null,
+            onDisallowed: null,
 
-            onUpvote: noop,
-            onDownvote: noop,
-            onRemoveVote: noop,
+            onUpvote: null,
+            onDownvote: null,
+            onRemoveVote: null,
 
             upvoteContent: null,
             downvoteContent: null
@@ -67,11 +67,12 @@ const Upvote = React.createClass({
         });
     },
 
-    shouldAllow() {
+    allowed() {
         let shouldAllow = this.props.shouldAllow;
+        let onDisallowed = this.props.onDisallowed || noop;
 
         if (shouldAllow && !shouldAllow()) {
-            this.props.onDisallowed();
+            onDisallowed();
             return false;
         }
 
@@ -79,29 +80,32 @@ const Upvote = React.createClass({
     },
 
     vote(nextStatus) {
-        if (this.state.updating || !this.shouldAllow()) {
+        if (this.state.updating || !this.allowed()) {
             return;
         }
 
         let prevStatus = this.state.voteStatus;
+        let onUpvote = this.props.onUpvote || noop;
+        let onDownvote = this.props.onDownvote || noop;
+        let onRemoveVote = this.props.onRemoveVote || noop;
 
         if (prevStatus === nextStatus) {
-            // toggle current vote off
-            this.props.onRemoveVote();
+            // undo current vote
+            onRemoveVote();
             nextStatus = 0;
         } else {
             // add/change vote
 
             if (prevStatus !== 0 && nextStatus !== 0) {
-                // remove previous vote first
-                this.props.onRemoveVote();
+                // undo previous vote first
+                onRemoveVote();
             }
 
             // add new vote
             if (nextStatus === 1) {
-                this.props.onUpvote();
+                onUpvote();
             } else {
-                this.props.onDownvote();
+                onDownvote();
             }
         }
 
@@ -122,8 +126,8 @@ const Upvote = React.createClass({
             'updating': this.state.updating
         });
 
-        let upvoteContent = this.props.upvoteContent;
-        let downvoteContent = this.props.downvoteContent;
+        let upvoteContent = this.props.upvoteContent || <div className="upvote">^</div>;
+        let downvoteContent = this.props.downvoteContent || <div className="downvote">v</div>;
 
         let beforeContent = this.props.beforeContent || null;
         let afterContent = this.props.afterContent || null;

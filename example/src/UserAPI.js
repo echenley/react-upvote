@@ -4,14 +4,22 @@ import EventEmitter from 'eventemitter3';
 
 let emitter = new EventEmitter();
 
-let user = {
-    id: 1,
+let defaultUser = {
+    id: 0,
     isLoggedIn: false,
     votes: {}
 };
 
+let user = {
+    id: 1,
+    isLoggedIn: true,
+    votes: {}
+};
+
+let currentUser = defaultUser;
+
 function getUser() {
-    return user;
+    return currentUser;
 }
 
 function emit() {
@@ -19,27 +27,27 @@ function emit() {
 }
 
 function login() {
-    user.isLoggedIn = true;
+    currentUser = user;
     emit();
 }
 
 function logout() {
-    user.isLoggedIn = false;
+    currentUser = defaultUser;
     emit();
 }
 
 function upvote(id) {
-    user.votes[id] = 1;
+    currentUser.votes[id] = 1;
     emit();
 }
 
 function downvote(id) {
-    user.votes[id] = -1;
+    currentUser.votes[id] = -1;
     emit();
 }
 
 function removeVote(id) {
-    delete user.votes[id];
+    delete currentUser.votes[id];
     emit();
 }
 
