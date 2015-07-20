@@ -147,6 +147,8 @@ var _reactUpvote = require('react-upvote');
 
 var _reactUpvote2 = _interopRequireDefault(_reactUpvote);
 
+// fake User/Posts APIs
+
 var _UserAPI = require('./UserAPI');
 
 var _UserAPI2 = _interopRequireDefault(_UserAPI);
@@ -229,13 +231,13 @@ var App = _react2['default'].createClass({
                 { className: 'post', key: i },
                 _react2['default'].createElement(_reactUpvote2['default'], {
                     voteStatus: user.votes[postData.id] || 0,
+                    upvoteContent: _react2['default'].createElement('i', { className: 'upvote-icon fa fa-arrow-up' }),
+                    downvoteContent: _react2['default'].createElement('i', { className: 'downvote-icon fa fa-arrow-down' }),
                     afterContent: _react2['default'].createElement(
                         'span',
                         { className: 'upvote-count' },
                         postData.upvotes
                     ),
-                    upvoteContent: _react2['default'].createElement('i', { className: 'upvote-icon fa fa-arrow-up' }),
-                    downvoteContent: _react2['default'].createElement('i', { className: 'downvote-icon fa fa-arrow-down' }),
                     shouldAllow: function () {
                         return isLoggedIn;
                     },
@@ -265,11 +267,18 @@ var App = _react2['default'].createClass({
             { className: 'posts' },
             _react2['default'].createElement(
                 'div',
-                null,
+                { className: 'login-status' },
+                _react2['default'].createElement(
+                    'span',
+                    null,
+                    'You are currently ',
+                    isLoggedIn ? '' : 'NOT',
+                    ' logged in.'
+                ),
                 _react2['default'].createElement(
                     'a',
                     { href: '#', onClick: this.toggleLogin },
-                    isLoggedIn ? 'logout' : 'login'
+                    isLoggedIn ? 'Logout' : 'Login'
                 )
             ),
             posts,
