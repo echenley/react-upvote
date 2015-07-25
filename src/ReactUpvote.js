@@ -71,12 +71,11 @@ const Upvote = React.createClass({
         let shouldAllow = this.props.shouldAllow;
         let onDisallowed = this.props.onDisallowed || noop;
 
-        if (shouldAllow && !shouldAllow()) {
-            onDisallowed();
-            return false;
-        }
+        // allowed is the return value of shouldAllow() or true
+        let allowed = shouldAllow ? shouldAllow() : true;
 
-        return true;
+        // TODO: TEST THIS
+        return allowed || (onDisallowed() && false);
     },
 
     vote(nextStatus) {
@@ -85,9 +84,9 @@ const Upvote = React.createClass({
         }
 
         let prevStatus = this.state.voteStatus;
-        let onUpvote = this.props.onUpvote || noop;
-        let onDownvote = this.props.onDownvote || noop;
-        let onRemoveVote = this.props.onRemoveVote || noop;
+        let onUpvote = this.props.onUpvote;
+        let onDownvote = this.props.onDownvote;
+        let onRemoveVote = this.props.onRemoveVote;
 
         if (prevStatus === nextStatus) {
             // undo current vote
