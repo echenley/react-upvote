@@ -6,51 +6,16 @@ import cx from 'classnames';
 
 let noop = () => {};
 
-const Upvote = React.createClass({
+class Upvote extends React.Component {
 
-    propTypes: {
-        className: React.PropTypes.string,
+    constructor(props) {
+        super(props);
 
-        voteStatus: React.PropTypes.number,
-
-        shouldAllow: React.PropTypes.func,
-        onDisallowed: React.PropTypes.func,
-
-        onUpvote: React.PropTypes.func,
-        onDownvote: React.PropTypes.func,
-        onRemoveVote: React.PropTypes.func,
-
-        upvoteContent: React.PropTypes.element,
-        downvoteContent: React.PropTypes.element,
-        beforeContent: React.PropTypes.element,
-        afterContent: React.PropTypes.element
-    },
-
-    getDefaultProps() {
-        return {
-            className: 'react-upvote',
-
-            voteStatus: 0,
-            upvoteCount: 0,
-
-            shouldAllow: null,
-            onDisallowed: null,
-
-            onUpvote: null,
-            onDownvote: null,
-            onRemoveVote: null,
-
-            upvoteContent: null,
-            downvoteContent: null
-        };
-    },
-
-    getInitialState() {
-        return {
+        this.state = {
             updating: false,
-            voteStatus: this.props.voteStatus
+            voteStatus: props.voteStatus
         };
-    },
+    }
 
     componentWillReceiveProps(nextProps) {
         let oldVoteStatus = this.props.voteStatus;
@@ -65,10 +30,10 @@ const Upvote = React.createClass({
             updating: false,
             voteStatus: nextProps.voteStatus
         });
-    },
+    }
 
     allowed() {
-        let shouldAllow = this.props.shouldAllow;
+        let { shouldAllow } = this.props;
         let onDisallowed = this.props.onDisallowed || noop;
 
         // allowed is the return value of shouldAllow() or true
@@ -76,17 +41,25 @@ const Upvote = React.createClass({
 
         // TODO: TEST THIS
         return allowed || (onDisallowed() && false);
-    },
+    }
 
     vote(nextStatus) {
-        if (this.state.updating || !this.allowed()) {
+        let {
+            updating,
+            voteStatus
+        } = this.state;
+
+        let {
+            onUpvote,
+            onDownvote,
+            onRemoveVote
+        } = this.props;
+
+        if (updating || !this.allowed()) {
             return;
         }
 
-        let prevStatus = this.state.voteStatus;
-        let onUpvote = this.props.onUpvote;
-        let onDownvote = this.props.onDownvote;
-        let onRemoveVote = this.props.onRemoveVote;
+        let prevStatus = voteStatus;
 
         if (prevStatus === nextStatus) {
             // undo current vote
@@ -114,43 +87,93 @@ const Upvote = React.createClass({
             // wait for action to complete before allowing upvote
             updating: true
         });
-    },
+    }
 
     render() {
-        let voteStatus = this.state.voteStatus;
+        let {
+            voteStatus,
+            updating
+        } = this.state;
 
-        let upvoteCx = cx(this.props.className, {
+        let {
+            className,
+            upvoteContent,
+            downvoteContent,
+            beforeContent,
+            afterContent
+        } = this.props;
+
+        let upvoteCx = cx(className, {
             'upvoted': voteStatus === 1,
             'downvoted': voteStatus === -1,
-            'updating': this.state.updating
+            'updating': updating
         });
 
-        let upvoteContent = this.props.upvoteContent || <div className="upvote">^</div>;
-        let downvoteContent = this.props.downvoteContent || <div className="downvote">v</div>;
+        let upvote = upvoteContent && (
+            <div className="upvote" onClick={ () => this.vote(1) }>
+                { upvoteContent }
+            </div>
+        );
 
-        let beforeContent = this.props.beforeContent || null;
-        let afterContent = this.props.afterContent || null;
+        let downvote = downvoteContent && (
+            <div className="downvote" onClick={ () => this.vote(-1) }>
+                { downvoteContent }
+            </div>
+        );
 
         return (
             <div className={ upvoteCx }>
+
                 { beforeContent }
-                <div className="react-upvote-icons">
-                    { upvoteContent && (
-                        <div className="upvote" onClick={ () => this.vote(1) }>
-                            { upvoteContent }
-                        </div>
-                    )}
-                    { downvoteContent && (
-                        <div className="downvote" onClick={ () => this.vote(-1) }>
-                            { downvoteContent }
-                        </div>
-                    )}
+
+                <div className={ `${className}-buttons` }>
+                    { upvote }
+                    { downvote }
                 </div>
+
                 { afterContent }
+
             </div>
         );
     }
+}
 
-});
+Upvote.propTypes = {
+    className: React.PropTypes.string,
+
+    voteStatus: React.PropTypes.number,
+    upvoteCount: React.PropTypes.number,
+
+    shouldAllow: React.PropTypes.func,
+    onDisallowed: React.PropTypes.func,
+
+    onUpvote: React.PropTypes.func,
+    onDownvote: React.PropTypes.func,
+    onRemoveVote: React.PropTypes.func,
+
+    upvoteContent: React.PropTypes.element,
+    downvoteContent: React.PropTypes.element,
+    beforeContent: React.PropTypes.element,
+    afterContent: React.PropTypes.element
+};
+
+Upvote.defaultProps = {
+    className: 'react-upvote',
+
+    voteStatus: 0,
+    upvoteCount: 0,
+
+    shouldAllow: null,
+    onDisallowed: null,
+
+    onUpvote: null,
+    onDownvote: null,
+    onRemoveVote: null,
+
+    upvoteContent: null,
+    downvoteContent: null,
+    beforeContent: null,
+    afterContent: null
+};
 
 export default Upvote;
