@@ -1,10 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
-
 import cx from 'classnames';
-
-let noop = () => {};
 
 class Upvote extends React.Component {
 
@@ -33,14 +30,19 @@ class Upvote extends React.Component {
     }
 
     allowed() {
-        let { shouldAllow } = this.props;
-        let onDisallowed = this.props.onDisallowed || noop;
+        let {
+            shouldAllow,
+            onDisallowed
+        } = this.props;
 
         // allowed is the return value of shouldAllow() or true
         let allowed = shouldAllow ? shouldAllow() : true;
 
-        // TODO: TEST THIS
-        return allowed || (onDisallowed() && false);
+        if (!allowed) {
+            onDisallowed();
+        }
+
+        return allowed;
     }
 
     vote(nextStatus) {
@@ -164,7 +166,7 @@ Upvote.defaultProps = {
     upvoteCount: 0,
 
     shouldAllow: null,
-    onDisallowed: null,
+    onDisallowed: () => {},
 
     onUpvote: null,
     onDownvote: null,
