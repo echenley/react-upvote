@@ -46,27 +46,29 @@ const App = React.createClass({
     },
 
     upvotePost(id) {
-        PostsAPI.upvote(id);
-        UserAPI.upvote(id);
+        PostsAPI.upvote(id, () => {
+            UserAPI.upvote(id);
+        });
     },
 
     downvotePost(id) {
-        PostsAPI.downvote(id);
-        UserAPI.downvote(id);
+        PostsAPI.downvote(id, () => {
+            UserAPI.downvote(id);
+        });
     },
 
     removeVote(id) {
         let currentVoteStatus = this.state.user.votes[id];
 
-        UserAPI.removeVote(id);
-
-        if (currentVoteStatus === 1) {
-            // remove upvote
-            PostsAPI.downvote(id);
-        } else {
-            // remove downvote
-            PostsAPI.upvote(id);
-        }
+        UserAPI.removeVote(id, () => {
+            if (currentVoteStatus === 1) {
+                // remove upvote
+                PostsAPI.downvote(id);
+            } else {
+                // remove downvote
+                PostsAPI.upvote(id);
+            }
+        });
     },
 
     render() {
