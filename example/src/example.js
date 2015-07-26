@@ -78,10 +78,11 @@ const App = React.createClass({
         let posts = this.state.posts.map((postData, i) => (
             <article className="post" key={ i }>
                 <Upvote
+                    className="votes"
                     voteStatus={ user.votes[postData.id] || 0 }
-                    upvoteContent={ <i className="upvote-icon fa fa-arrow-up"></i> }
-                    downvoteContent={ <i className="downvote-icon fa fa-arrow-down"></i> }
-                    afterContent={ <span className="upvote-count">{ postData.upvotes }</span> }
+                    upvoteContent={ <i className="icon-upvote fa fa-arrow-up"></i> }
+                    downvoteContent={ <i className="icon-downvote fa fa-arrow-down"></i> }
+                    afterContent={ <span className="votes-count">{ postData.upvotes }</span> }
                     shouldAllow={ () => isLoggedIn }
                     onDisallowed={ () => this.errorMessage('You have to log in!') }
                     onUpvote={ () => this.upvotePost(postData.id) }
