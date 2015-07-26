@@ -5,6 +5,10 @@
         "node": true,
         "es6": true
     },
+    "ecmaFeatures": {
+        "jsx": true,
+        "arrowFunctions": true
+    },
     "plugins": [
         "react"
     ],
