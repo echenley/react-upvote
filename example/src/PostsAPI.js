@@ -22,18 +22,21 @@ function getPosts() {
     }));
 }
 
-function emit() {
+function emit(cb) {
     emitter.emit('posts-updated', getPosts());
+    if (cb) {
+        cb();
+    }
 }
 
-function upvote(id) {
+function upvote(id, cb) {
     posts[id].upvotes += 1;
-    emit();
+    emit(cb);
 }
 
-function downvote(id) {
+function downvote(id, cb) {
     posts[id].upvotes -= 1;
-    emit();
+    emit(cb);
 }
 
 const Posts = {

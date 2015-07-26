@@ -22,33 +22,36 @@ function getUser() {
     return currentUser;
 }
 
-function emit() {
+function emit(cb) {
     emitter.emit('user-updated', getUser());
+    if (cb) {
+        cb();
+    }
 }
 
-function login() {
+function login(cb) {
     currentUser = user;
-    emit();
+    emit(cb);
 }
 
-function logout() {
+function logout(cb) {
     currentUser = defaultUser;
-    emit();
+    emit(cb);
 }
 
-function upvote(id) {
+function upvote(id, cb) {
     currentUser.votes[id] = 1;
-    emit();
+    emit(cb);
 }
 
-function downvote(id) {
+function downvote(id, cb) {
     currentUser.votes[id] = -1;
-    emit();
+    emit(cb);
 }
 
-function removeVote(id) {
+function removeVote(id, cb) {
     delete currentUser.votes[id];
-    emit();
+    emit(cb);
 }
 
 export default {
