@@ -66,8 +66,8 @@ var Upvote = require('react-upvote');
 | onUpvote | Function | `null` | Function called when an upvote is registered |
 | onDownvote | Function | `null` | Function called when a downvote is registered |
 | onRemoveVote | Function | `null` | Function called when undoing a previous vote |
-| upvoteContent | Component | `<div className="upvote">^</div>` |
-| downvoteContent | Component | `<div className="downvote">v</div>` |
+| upvoteContent | Component | `null` |
+| downvoteContent | Component | `null` |
 
 
 ## Development (`src`, `lib` and the build process)
