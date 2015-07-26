@@ -53,6 +53,12 @@ h1, h2, h3, h4, h5, h6 {
     color: #999;
 }
 
+.login-status {
+    a {
+        float: right;
+    }
+}
+
 .posts {
     margin-top: 20px;
     padding-top: 20px;
@@ -69,7 +75,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: 10px 15px;
 
     h2,
-    .react-upvote {
+    .votes {
         display: table-cell;
         vertical-align: middle;
     }
@@ -80,23 +86,21 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-.login-status {
-    a {
-        float: right;
-    }
-}
-
-.react-upvote {
+.votes {
     width: 60px;
     line-height: 32px;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
 
-    &-icons,
-    .upvote-count {
+    &-buttons,
+    &-count {
         display: inline-block;
         vertical-align: middle;
+    }
+
+    &-count {
+        margin-left: 10px;
     }
 
     .downvote,
@@ -105,13 +109,12 @@ h1, h2, h3, h4, h5, h6 {
         cursor: pointer;
     }
 
-    &.downvoted .downvote-icon,
-    &.upvoted .upvote-icon {
-        color: #f00;
+    &.downvoted .icon-downvote {
+        color: #39f;
     }
 
-    .upvote-count {
-        margin-left: 10px;
+    &.upvoted .icon-upvote {
+        color: #f00;
     }
 }
 
